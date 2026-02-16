@@ -93,6 +93,7 @@ def send_monthly_gst_email():
         print(f"[GST Email] Sent monthly GST email: ₹{total_gst}")
     except Exception as e:
         print(f"[GST Email] Failed to send email: {e}")
+    return total_gst, month_year
 
 # -----------------------------
 # Send monthly GST WhatsApp
