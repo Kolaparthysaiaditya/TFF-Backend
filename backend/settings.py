@@ -189,7 +189,7 @@ TWILIO_PHONE_NUMBER = os.getenv("TWILIO_PHONE_NUMBER")
 TWILIO_WHATSAPP_NUMBER = os.getenv("TWILIO_WHATSAPP_NUMBER")
 OWNER_WHATSAPP = os.getenv("OWNER_WHATSAPP")
 ADMIN_PHONE = os.getenv("ADMIN_PHONE")
-
+ADMIN_EMAIL = os.getenv("ADMIN_EMAIL")
 
 # --------------------------------------------------
 # SECURITY SETTINGS (Recommended for Production)
