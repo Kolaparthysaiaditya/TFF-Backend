@@ -1787,7 +1787,7 @@ def send_gst_email_api(request):
     today = now()
 
     # Only allow execution on 1st day
-    if today.day != 1:
+    if today.day == 1:
         return Response({"message": "Not scheduled day"}, status=200)
 
     success, data = send_monthly_gst_email()
