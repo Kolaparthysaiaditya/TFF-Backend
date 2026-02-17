@@ -3,7 +3,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework import status
 from django.utils import timezone
-from django.utils.timezone import make_aware, datetime
+from django.utils.timezone import make_aware, datetime, now
 from calendar import monthrange, month_name
 from datetime import date
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -1784,14 +1784,16 @@ def leading_branch(request):
 
 @api_view(['GET'])
 def send_gst_email_api(request):
-    """
-    API to manually send monthly GST email
-    """
-    success, result = send_monthly_gst_email()
-    if success:
-        return Response({"message": "GST email sent successfully", "total_gst": float(result)})
-    else:
-        return Response({"error": result}, status=500)
+    today = now()
+
+    # Only allow execution on 1st day
+    if today.day != 1:
+        return Response({"message": "Not scheduled day"}, status=200)
+
+    success, data = send_monthly_gst_email()
+    send_monthly_gst_whatsapp()
+
+    return Response({"status": "GST Sent"})
 
 @api_view(["GET"])
 def send_whatsapp(request):
