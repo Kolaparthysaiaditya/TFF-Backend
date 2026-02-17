@@ -77,7 +77,7 @@ def send_monthly_gst_email():
     first_day_this_month = today.replace(day=1)
     last_month = first_day_this_month - timedelta(days=1)
     start_date = last_month.replace(day=1)
-    end_date = last_day_of_month = first_day_this_month - timedelta(days=1)
+    end_date = first_day_this_month - timedelta(days=1)
 
     total_gst = TiexCollect.objects.filter(
         created_at__date__gte=start_date,
@@ -89,11 +89,19 @@ def send_monthly_gst_email():
     subject = f"GST Collection Intimation - {month_year}"
 
     try:
-        send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [settings.ADMIN_EMAIL])
+        send_mail(
+            subject,
+            message,
+            settings.DEFAULT_FROM_EMAIL,
+            [settings.ADMIN_EMAIL]
+        )
+
         print(f"[GST Email] Sent monthly GST email: ₹{total_gst}")
+        return True, total_gst   # ✅ RETURN SUCCESS
+
     except Exception as e:
         print(f"[GST Email] Failed to send email: {e}")
-    return total_gst, month_year
+        return False, str(e)    # ✅ RETURN ERROR
 
 # -----------------------------
 # Send monthly GST WhatsApp
