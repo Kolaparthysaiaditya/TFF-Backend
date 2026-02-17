@@ -1,4 +1,3 @@
-from apscheduler.schedulers.background import BackgroundScheduler
 from django.core.mail import send_mail
 from django.conf import settings
 from twilio.rest import Client
@@ -130,33 +129,3 @@ def send_monthly_gst_whatsapp():
     ]
     send_sms(sms_message, phone_numbers)
 
-# -----------------------------
-# Scheduler
-# -----------------------------
-def start_scheduler():
-    scheduler = BackgroundScheduler()
-
-    # Email job
-    scheduler.add_job(
-        send_monthly_gst_email,
-        trigger='cron',
-        day=1,
-        hour=00,
-        minute=5,
-        id='monthly_gst_email',
-        replace_existing=True
-    )
-
-    # WhatsApp job
-    scheduler.add_job(
-        send_monthly_gst_whatsapp,
-        trigger='cron',
-        day=1,
-        hour=00,
-        minute=5,
-        id='monthly_gst_whatsapp',
-        replace_existing=True
-    )
-
-    scheduler.start()
-    print("[Scheduler] Monthly GST email & WhatsApp scheduler started")
