@@ -489,7 +489,7 @@ def branch_menu_with_status(request, branch_id):
         )
         data.append({
             "id": item.id,
-            "image":request.build_absolute_uri(item.image.url) if item.image else Non,
+            "image":request.build_absolute_uri(item.image.url) if item.image else None,
             "name": item.name,
             "category": item.category,
             "price": item.price,
